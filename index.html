@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Me perdonas?</title>
+<style>
+:root{--bg1:#ffe3ef;--bg2:#ffc2dc;--ink:#5a1f3a;--sun:#ff6fa8;--card:#fff5fa;--no:#f6c5d9;--glow:rgba(214,61,124,.3);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#3a1727;--bg2:#220a15;--ink:#ffd9ea;--card:#3f1a2d;--no:#5c2a42}}
+:root[data-theme="dark"]{--bg1:#3a1727;--bg2:#220a15;--ink:#ffd9ea;--card:#3f1a2d;--no:#5c2a42}
+html,body{height:100%;margin:0;overflow:hidden}
+body{background:radial-gradient(circle at 30% 20%,var(--bg1),var(--bg2));color:var(--ink);font-family:Georgia,"Times New Roman",serif;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;position:relative}
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5}
+.fall{position:absolute;top:-60px;animation:fall linear forwards;will-change:transform}
+@keyframes fall{to{transform:translate3d(var(--dx),110vh,0) rotate(var(--rot))}}
+.petal{width:14px;height:20px;background:linear-gradient(135deg,#ffb3d1,#ff7eb3);border-radius:80% 0 80% 0;opacity:.85}
+.burst{position:fixed;pointer-events:none;z-index:9;animation:burst 1.6s ease-out forwards}
+@keyframes burst{to{transform:translate(var(--bx),var(--by)) rotate(var(--rot)) scale(.6);opacity:0}}
+.spark{position:fixed;pointer-events:none;z-index:9;font-size:16px;animation:spark .8s forwards}
+@keyframes spark{to{transform:translateY(-30px) scale(.2);opacity:0}}
+.card{position:relative;z-index:6;background:var(--card);border-radius:32px;padding:34px 24px 30px;max-width:420px;width:100%;text-align:center;box-shadow:0 14px 40px var(--glow),0 0 0 4px rgba(255,255,255,.4) inset;animation:enter 1.1s cubic-bezier(.2,1.4,.4,1) both .3s}
+@keyframes enter{from{transform:scale(.2) rotate(-12deg);opacity:0}to{transform:none;opacity:1}}
+.cat{font-size:70px;line-height:1;display:inline-block;animation:bob 2.4s ease-in-out infinite;position:relative}
+.cat .bow{position:absolute;font-size:34px;top:-12px;right:-14px;animation:wig 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px) rotate(4deg)}}
+@keyframes wig{50%{transform:rotate(18deg) scale(1.15)}}
+h1{font-size:32px;margin:14px 0 8px;font-style:italic;animation:up .8s both 1.1s}
+p{font-size:18px;line-height:1.5;margin:0 0 22px;min-height:54px;animation:up .8s both 1.4s}
+.btns{display:flex;gap:16px;justify-content:center;align-items:center;min-height:70px;animation:up .8s both 1.7s}
+@keyframes up{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+button{font:inherit;font-size:20px;border:0;border-radius:999px;padding:14px 32px;cursor:pointer;color:var(--ink);transition:transform .3s,opacity .3s}
+#si{background:var(--sun);color:#fff;font-weight:bold;box-shadow:0 6px 16px var(--glow);animation:pulse 1.6s ease-in-out infinite}
+#no{background:var(--no)}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(255,111,168,.25)}}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.hearts{display:flex;justify-content:center;gap:8px;font-size:22px;margin-top:6px;height:28px}
+.hearts span{animation:bob 1.8s ease-in-out infinite}
+.hearts span:nth-child(2){animation-delay:.2s}.hearts span:nth-child(3){animation-delay:.4s}.hearts span:nth-child(4){animation-delay:.6s}.hearts span:nth-child(5){animation-delay:.8s}
+.shake{animation:shake .5s}
+@keyframes shake{25%{transform:translateX(-8px) rotate(-3deg)}75%{transform:translateX(8px) rotate(3deg)}}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;font-size:14px;animation:tw 2.5s ease-in-out infinite}
+@keyframes tw{50%{opacity:.15;transform:scale(.6) rotate(25deg)}}
+.cat{cursor:pointer;user-select:none}
+.hide{display:none}
+.meter{margin:4px 0 14px;font-size:15px}
+.bar{height:18px;border-radius:999px;background:var(--no);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff9cc6,#ff4f95);border-radius:999px;transition:width 2.2s ease-out}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:6px 0 10px}
+.chips span{background:var(--no);border-radius:999px;padding:8px 14px;font-size:16px;animation:chip .6s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes chip{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important}}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div id="fx"></div>
+<div class="card" id="card">
+  <div class="cat" id="cat">🐱<span class="bow">🎀</span></div>
+  <h1 id="t">¿Me perdonas?</h1>
+  <p id="m">Te traje flores y moños para pedírtelo.</p>
+  <div class="btns" id="b">
+    <button id="si">Sí 💖</button>
+    <button id="no">No</button>
+  </div>
+  <div class="meter hide" id="meter">Perdonómetro 💗<div class="bar"><i id="fill"></i></div></div>
+  <div class="chips" id="chips"></div>
+  <div class="hearts" id="h"><span>🌸</span><span>💗</span><span>🌷</span><span>💗</span><span>🌸</span></div>
+</div>
+<script>
+var $=function(i){return document.getElementById(i)};
+var fx=$('fx'),card=$('card'),si=$('si'),no=$('no'),t=$('t'),m=$('m'),cat=$('cat').firstChild;
+var calm=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var items=['🌸','🌷','🌺','🎀','💗','🌼','✨'];
+function rnd(a,b){return a+Math.random()*(b-a)}
+function drop(){
+  var e=document.createElement('div');
+  e.className='fall';
+  if(Math.random()<.45){e.classList.add('petal');}
+  else{e.textContent=items[Math.floor(rnd(0,items.length))];e.style.fontSize=rnd(16,30)+'px';}
+  e.style.left=rnd(0,100)+'vw';
+  e.style.setProperty('--dx',rnd(-80,80)+'px');
+  e.style.setProperty('--rot',rnd(-540,540)+'deg');
+  e.style.animationDuration=rnd(5,10)+'s';
+  fx.appendChild(e);
+  setTimeout(function(){e.remove()},10500);
+}
+var rate=calm?1800:380;
+var timer=setInterval(drop,rate);
+if(!calm){for(var i=0;i<18;i++)setTimeout(drop,i*90)}
+function burst(n){
+  var x=innerWidth/2,y=innerHeight/2;
+  for(var i=0;i<n;i++){
+    var e=document.createElement('div');
+    e.className='burst';
+    e.textContent=items[Math.floor(rnd(0,items.length))];
+    e.style.left=x+'px';e.style.top=y+'px';e.style.fontSize=rnd(20,38)+'px';
+    var a=rnd(0,6.283),d=rnd(120,Math.max(innerWidth,innerHeight)*.6);
+    e.style.setProperty('--bx',Math.cos(a)*d+'px');
+    e.style.setProperty('--by',Math.sin(a)*d+'px');
+    e.style.setProperty('--rot',rnd(-360,360)+'deg');
+    document.body.appendChild(e);
+    setTimeout(function(el){el.remove()}.bind(null,e),1700);
+  }
+}
+var last=0;
+function sparkle(ev){
+  var now=Date.now();if(now-last<70||calm)return;last=now;
+  var p=ev.touches?ev.touches[0]:ev;
+  var e=document.createElement('div');
+  e.className='spark';e.textContent=['✨','💖','🌸'][Math.floor(rnd(0,3))];
+  e.style.left=p.clientX+'px';e.style.top=p.clientY+'px';
+  document.body.appendChild(e);setTimeout(function(){e.remove()},800);
+}
+addEventListener('pointermove',sparkle);
+addEventListener('touchmove',sparkle,{passive:true});
+for(var s=0;s<28;s++){var st=document.createElement('div');st.className='star';st.textContent=['✨','⭐','💫','🤍'][s%4];st.style.left=rnd(0,100)+'vw';st.style.top=rnd(0,100)+'vh';st.style.animationDelay=rnd(0,2.5)+'s';$('stars').appendChild(st)}
+$('cat').addEventListener('click',function(){var c=$('cat');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');burst(6)});
+var msgs=[
+ ['¿Quisiste decir que sí?','Déjame ayudarte 😊','😿'],
+ ['Mmm, creo que el botón se equivocó','Mira, el Sí está más grande 🙈','🙀'],
+ ['Mejor te ayudo yo 💖','Ya casi no cabe el No…','😽'],
+ ['Ya, ya… sé que querías decir que sí','Toca el botón rosa 🌸','😻']
+];
+var n=0;
+no.addEventListener('click',function(){
+  var k=Math.min(n,msgs.length-1);
+  t.textContent=msgs[k][0];m.textContent=msgs[k][1];cat.textContent=msgs[k][2];
+  n++;
+  card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');
+  si.style.animation='none';
+  si.style.transform='scale('+(1+n*.22)+')';
+  no.style.transform='scale('+Math.max(.35,1-n*.17)+') translate('+rnd(-30,30)+'px,'+rnd(-10,10)+'px)';
+  if(n>=5){no.style.opacity='0';no.style.pointerEvents='none';no.style.position='absolute'}
+  if(!calm)burst(8);
+});
+si.addEventListener('click',function(){
+  t.textContent='¡Muy bien! 💖';
+  m.innerHTML='Gracias por perdonarme 💖<br>Ahora déjame ayudarte a estudiar 📚✏️';
+  cat.textContent='😻';
+  $('b').style.display='none';
+  $('meter').classList.remove('hide');
+  setTimeout(function(){$('fill').style.width='100%'},100);
+  ['📚 Mates','✏️ Tareas','🧠 Repaso','☕ Descansitos','⭐ Tú puedes'].forEach(function(x,i){var c=document.createElement('span');c.textContent=x;c.style.animationDelay=(0.6+i*.25)+'s';$('chips').appendChild(c)});
+  $('h').innerHTML='<span>💖</span><span>🎀</span><span>💖</span><span>🎀</span><span>💖</span>';
+  burst(calm?10:45);
+  clearInterval(timer);
+  if(!calm){timer=setInterval(drop,90);setTimeout(function(){clearInterval(timer);timer=setInterval(drop,280)},3500)}
+});
+</script>
+</body>
+</html>
